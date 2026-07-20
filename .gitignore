@@ -9,6 +9,7 @@ x86/
 *.obj
 *.pdb
 *.ilk
+*.res
 
 # Ignore hidden Visual Studio configurations
 .vs/
