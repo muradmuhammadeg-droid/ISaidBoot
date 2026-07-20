@@ -8,18 +8,30 @@ echo.
 where cl >nul 2>nul
 if %errorlevel% neq 0 (
     echo [-] Error: MSVC Compiler 'cl' not found in path.
+    echo [*] Please run this script inside the 'Developer Command Prompt for VS'.
+    echo.
+    pause
     exit /b 1
 )
 
-echo [*] Compiling Windows resource script layout...
+echo [*] Compiling low-level assembly helper module...
+ml64.exe /c utils.asm
+
+echo [*] Compiling application resource script...
 rc.exe app.rc
 
-echo [*] Compiling production GUI binary with metadata...
-cl /EHsc main.cpp app.res /link /SUBSYSTEM:WINDOWS /out:ISaidBoot.exe
+echo [*] Compiling production GUI binary with assembly linkage...
+cl /EHsc main.cpp utils.obj app.res /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib /out:ISaidBoot.exe
 
 if %errorlevel% eq 0 (
-    echo [+] SUCCESS: Compiled flawlessly!
+    echo.
+    echo [+] SUCCESS: 'ISaidBoot.exe' compiled flawlessly with 4 languages linked!
+    echo [*] Launching application...
+    start ISaidBoot.exe
 ) else (
-    echo [-] Build Failure.
-    exit /b 255
+    echo.
+    echo [-] Build Failure: Check compiler output logs.
 )
+
+echo.
+pause
