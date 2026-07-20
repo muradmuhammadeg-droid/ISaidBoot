@@ -1,0 +1,33 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  nuget-distribution:
+    runs-on: windows-latest
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Setup NuGet Command Line Interface
+      uses: nuget/setup-nuget@v2
+      with:
+        nuget-version: 'latest'
+
+    - name: Pack Code Component Bundle
+      run: |
+        nuget pack ISaidBoot.nuspec -OutputDirectory .
+
+    - name: Configure NuGet Authentication Source
+      run: |
+        nuget sources Add -Name "GitHub" -Source "https://github.com" -UserName "muradmuhammadeg-droid" -Password "${{ secrets.GITHUB_TOKEN }}"
+
+    - name: Push Package to Registry
+      run: |
+        nuget push *.nupkg -Source "GitHub" -SkipDuplicate
