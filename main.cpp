@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <string>
+#include "config.h" // Links our central configuration variables seamlessly
 
 #define IDC_VIRTUAL_FLASH  1001
 #define IDC_PHYSICAL_FLASH 1002
@@ -7,30 +8,27 @@
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
     switch (msg) {
         case WM_CREATE: {
-            // Button 1: Safe Sandboxed Virtual Flash
+            // Button 1: Configured using clean macro layouts from config.h
             CreateWindowW(L"BUTTON", L"Virtual Flash (Safe Sandbox VM)", 
                           WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 
-                          20, 30, 340, 40, hWnd, (HMENU)IDC_VIRTUAL_FLASH, NULL, NULL);
+                          BTN_VIRTUAL_X, BTN_VIRTUAL_Y, BTN_VIRTUAL_W, BTN_VIRTUAL_H, 
+                          hWnd, (HMENU)IDC_VIRTUAL_FLASH, NULL, NULL);
 
-            // Button 2: High-Risk Direct Physical Flash
+            // Button 2: Configured using clean macro layouts from config.h
             CreateWindowW(L"BUTTON", L"Physical Flash (Direct Hardware Write)", 
                           WS_VISIBLE | WS_CHILD, 
-                          20, 90, 340, 40, hWnd, (HMENU)IDC_PHYSICAL_FLASH, NULL, NULL);
+                          BTN_PHYSICAL_X, BTN_PHYSICAL_Y, BTN_PHYSICAL_W, BTN_PHYSICAL_H, 
+                          hWnd, (HMENU)IDC_PHYSICAL_FLASH, NULL, NULL);
             break;
         }
         case WM_COMMAND: {
             switch (LOWORD(wp)) {
                 case IDC_VIRTUAL_FLASH: {
-                    MessageBoxW(hWnd, 
-                                L"Launching Isolated Sandbox...\n\nThis will safely mount the ISO inside a local virtual instance without altering your host hardware configurations.", 
-                                L"ISaidBoot!! - Virtual Flash Mode", 
-                                MB_OK | MB_ICONINFORMATION);
+                    MessageBoxW(hWnd, VIRTUAL_BOX_MSG, APP_TITLE, MB_OK | MB_ICONINFORMATION);
                     break;
                 }
                 case IDC_PHYSICAL_FLASH: {
-                    int response = MessageBoxW(hWnd, 
-                                               L"CRITICAL WARNING:\n\nPhysical flashing writes data blocks directly to raw storage sectors, destroying all pre-existing partitions.\n\nOne incorrect targeted drive index can permanently wipe your host operating system.\n\nAre you absolutely certain you want to proceed?", 
-                                               L"ISaidBoot!! - DANGER ZONE", 
+                    int response = MessageBoxW(hWnd, PHYSICAL_BOX_MSG, APP_TITLE, 
                                                MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2);
                     if (response == IDYES) {
                         // Hardware flashing execution goes here
@@ -55,14 +53,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR args, int ncmdsho
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hInstance = hInst;
-    wc.lpszClassName = L"ISaidBootGuiClass";
+    wc.lpszClassName = APP_CLASS_NAME;
     wc.lpfnWndProc = WindowProcedure;
 
     if (!RegisterClassW(&wc)) return -1;
 
-    HWND hWnd = CreateWindowW(L"ISaidBootGuiClass", L"ISaidBoot!! Deployment Engine", 
+    HWND hWnd = CreateWindowW(APP_CLASS_NAME, APP_TITLE, 
                               WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX, 
-                              CW_USEDEFAULT, CW_USEDEFAULT, 400, 190, NULL, NULL, hInst, NULL);
+                              CW_USEDEFAULT, CW_USEDEFAULT, WINDOW_WIDTH, WINDOW_HEIGHT, 
+                              NULL, NULL, hInst, NULL);
     
     ShowWindow(hWnd, ncmdshow);
     UpdateWindow(hWnd);
