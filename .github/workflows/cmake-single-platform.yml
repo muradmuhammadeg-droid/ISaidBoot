@@ -1,0 +1,20 @@
+name: CMake Single-Platform Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  cmake-single-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Configure CMake Standalone Environment
+      run: |
+        echo "Initializing localized build tree..."
+        mkdir build
