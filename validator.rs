@@ -4,7 +4,6 @@ use std::path::Path;
 pub fn verify_iso_extension(file_path: &str) -> bool {
     let path = Path::new(file_path);
     
-    // Extract the file extension and verify it matches 'iso' safely
     match path.extension() {
         Some(ext) => {
             if ext.to_ascii_lowercase() == "iso" {
@@ -24,7 +23,6 @@ pub fn verify_iso_extension(file_path: &str) -> bool {
 
 fn main() {
     println!("--- ISaidBoot!! Rust Storage Validation Library ---");
-    // Example test trace
-    let test_file = "ubuntu_image.iso";
+    let test_file = "test_image.iso";
     verify_iso_extension(test_file);
 }
