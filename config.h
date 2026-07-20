@@ -24,7 +24,4 @@
 #define VIRTUAL_BOX_MSG  L"Launching Isolated Sandbox...\n\nThis will safely mount the ISO inside a local virtual instance without altering your host hardware configurations."
 #define PHYSICAL_BOX_MSG L"CRITICAL WARNING:\n\nPhysical flashing writes data blocks directly to raw storage sectors, destroying all pre-existing partitions.\n\nOne incorrect targeted drive index can permanently wipe your host operating system.\n\nAre you absolutely certain you want to proceed?"
 
-// External low-level assembly routines
-extern "C" void SafeCpuHalt();
-
 #endif // CONFIG_H
