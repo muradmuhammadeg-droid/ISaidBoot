@@ -14,20 +14,23 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-echo [*] Compiling application resource script (version information)...
+echo [*] Compiling low-level assembly helper module...
+ml64.exe /c utils.asm
+
+echo [*] Compiling application resource script...
 rc.exe app.rc
 
-echo [*] Compiling production GUI binary with embedded metadata...
-cl /EHsc main.cpp app.res /link /SUBSYSTEM:WINDOWS user32.lib /out:ISaidBoot.exe
+echo [*] Compiling production GUI binary with assembly linkage...
+cl /EHsc main.cpp utils.obj app.res /link /SUBSYSTEM:WINDOWS user32.lib /out:ISaidBoot.exe
 
 if %errorlevel% eq 0 (
     echo.
-    echo [+] SUCCESS: 'ISaidBoot.exe' compiled flawlessly with embedded metadata!
+    echo [+] SUCCESS: 'ISaidBoot.exe' compiled flawlessly with 4 languages linked!
     echo [*] Launching application...
     start ISaidBoot.exe
 ) else (
     echo.
-    echo [-] Build Failure: Check compiler output logs for syntax errors.
+    echo [-] Build Failure: Check compiler output logs.
 )
 
 echo.
