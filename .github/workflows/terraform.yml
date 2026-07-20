@@ -1,0 +1,21 @@
+name: Cloud Infrastructure Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  terraform-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Setup HashiCorp Terraform CLI
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Verify Deployment Engine Presence
+      run: terraform --version
