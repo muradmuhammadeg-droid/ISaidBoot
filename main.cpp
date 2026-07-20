@@ -2,6 +2,10 @@
 #include <string>
 #include "config.h" 
 
+// Explicitly command the compiler to bind essential Windows graphic and window systems
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "gdi32.lib")
+
 #define IDC_VIRTUAL_FLASH  1001
 #define IDC_PHYSICAL_FLASH 1002
 
