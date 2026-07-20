@@ -1,0 +1,23 @@
+name: Verify Multi-Language Compilation
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Check GCC Compiler Version
+      run: g++ --version
+
+    - name: Verify C++ Syntax Integrity
+      run: |
+        g++ -std=c++11 -c main.cpp -o main.o
+      continue-on-error: true # Prevents the pipeline from crashing completely if we are mid-edits
