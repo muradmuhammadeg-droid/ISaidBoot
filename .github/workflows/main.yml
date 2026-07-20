@@ -3,13 +3,13 @@ name: Automated Release Build Pipeline
 on:
   push:
     tags:
-      - 'v1.0' # Triggers automatically when you push a v1.0 tag
+      - 'v1.0' # Triggers strictly for the specific v1.0 release tag and nothing else
 
 jobs:
   release-build:
     runs-on: windows-2022
     permissions:
-      contents: write # Allows GitHub Actions to safely upload assets to your Releases page
+      contents: write 
 
     steps:
     - name: Checkout Source Code
