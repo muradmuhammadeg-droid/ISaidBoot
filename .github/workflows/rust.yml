@@ -1,0 +1,23 @@
+name: Rust Code Validation
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  rust-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Verify Rust Compiler Presence
+      run: rustc --version
+
+    - name: Compile and Test Validation Utility
+      run: |
+        rustc validator.rs -o rust_validator
+        ./rust_validator
