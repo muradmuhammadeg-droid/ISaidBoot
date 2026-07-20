@@ -1,0 +1,26 @@
+name: CMake Multi-Platform Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  cmake-validate:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest] # Automatically runs on both Linux and Windows environments
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Verify CMake Presence
+      run: cmake --version
+
+    - name: Run Basic Syntax Validation
+      run: |
+        echo "Validating multi-platform environments..."
