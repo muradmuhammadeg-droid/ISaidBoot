@@ -15,7 +15,7 @@ echo [*] Compiling Windows resource script layout...
 rc.exe app.rc
 
 echo [*] Compiling production GUI binary with metadata...
-cl /EHsc main.cpp app.res /link /SUBSYSTEM:WINDOWS user32.lib /out:ISaidBoot.exe
+cl /EHsc main.cpp app.res /link /SUBSYSTEM:WINDOWS /out:ISaidBoot.exe
 
 if %errorlevel% eq 0 (
     echo [+] SUCCESS: Compiled flawlessly!
