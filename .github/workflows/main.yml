@@ -1,0 +1,31 @@
+name: Automated Release Build Pipeline
+
+on:
+  push:
+    tags:
+      - 'v1.0' # Triggers automatically when you push a v1.0 tag
+
+jobs:
+  release-build:
+    runs-on: windows-2022
+    permissions:
+      contents: write # Allows GitHub Actions to safely upload assets to your Releases page
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Initialize MSVC Developer Environment
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Compile Cross-Platform Executable Binary
+      run: |
+        build.bat
+      shell: cmd
+
+    - name: Create and Upload Asset to GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ISaidBoot.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
