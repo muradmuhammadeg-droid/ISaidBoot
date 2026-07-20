@@ -1,6 +1,6 @@
 #include <windows.h>
 #include <string>
-#include "config.h" // Links our central configuration variables seamlessly
+#include "config.h" 
 
 #define IDC_VIRTUAL_FLASH  1001
 #define IDC_PHYSICAL_FLASH 1002
@@ -8,13 +8,13 @@
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
     switch (msg) {
         case WM_CREATE: {
-            // Button 1: Configured using clean macro layouts from config.h
+            // Button 1: Safe Sandboxed Virtual Flash
             CreateWindowW(L"BUTTON", L"Virtual Flash (Safe Sandbox VM)", 
                           WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 
                           BTN_VIRTUAL_X, BTN_VIRTUAL_Y, BTN_VIRTUAL_W, BTN_VIRTUAL_H, 
                           hWnd, (HMENU)IDC_VIRTUAL_FLASH, NULL, NULL);
 
-            // Button 2: Configured using clean macro layouts from config.h
+            // Button 2: High-Risk Direct Physical Flash
             CreateWindowW(L"BUTTON", L"Physical Flash (Direct Hardware Write)", 
                           WS_VISIBLE | WS_CHILD, 
                           BTN_PHYSICAL_X, BTN_PHYSICAL_Y, BTN_PHYSICAL_W, BTN_PHYSICAL_H, 
@@ -31,7 +31,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
                     int response = MessageBoxW(hWnd, PHYSICAL_BOX_MSG, APP_TITLE, 
                                                MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2);
                     if (response == IDYES) {
-                        // Hardware flashing execution goes here
+                        // Hardware flashing execution or assembly low-level halt routine can be placed here
                     }
                     break;
                 }
