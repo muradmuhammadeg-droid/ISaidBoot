@@ -1,0 +1,26 @@
+name: Anaconda Python Analysis
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  anaconda-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Set up Miniconda Environment
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        auto-update-conda: true
+        python-version: "3.10"
+
+    - name: Run Configuration Analyzer via Conda
+      shell: bash -l {0}
+      run: |
+        python analyzer.py
