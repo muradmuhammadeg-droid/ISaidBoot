@@ -5,7 +5,6 @@ echo       ISaidBoot!! Automatic Compilation Routine
 echo ========================================================
 echo.
 
-:: Verify if the Microsoft C++ Compiler (cl) is accessible in the system path
 where cl >nul 2>nul
 if %errorlevel% neq 0 (
     echo [-] Error: MSVC Compiler 'cl' not found in path.
@@ -15,12 +14,15 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-echo [*] Compiling production GUI binary...
-cl /EHsc main.cpp /link /SUBSYSTEM:WINDOWS user32.lib /out:ISaidBoot.exe
+echo [*] Compiling application resource script (version information)...
+rc.exe app.rc
 
-if %errorlevel% eq0 (
+echo [*] Compiling production GUI binary with embedded metadata...
+cl /EHsc main.cpp app.res /link /SUBSYSTEM:WINDOWS user32.lib /out:ISaidBoot.exe
+
+if %errorlevel% eq 0 (
     echo.
-    echo [+] SUCCESS: 'ISaidBoot.exe' compiled flawlessly!
+    echo [+] SUCCESS: 'ISaidBoot.exe' compiled flawlessly with embedded metadata!
     echo [*] Launching application...
     start ISaidBoot.exe
 ) else (
