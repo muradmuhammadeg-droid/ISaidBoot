@@ -1,0 +1,16 @@
+# Ignore Visual Studio build output directories
+Debug/
+Release/
+x64/
+x86/
+
+# Ignore compiled binary files
+*.exe
+*.obj
+*.pdb
+*.ilk
+
+# Ignore hidden Visual Studio configurations
+.vs/
+*.suo
+*.user
