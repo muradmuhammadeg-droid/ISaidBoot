@@ -1,3 +1,5 @@
+> [!WARNING]
+> If you will do a single mistake on booting an .iso file, Your system will be corrupted. Tutorial is coming soon.
 # ISaidBoot!!
 
 An advanced cross-platform visual deployment application that handles native ISO images for **Windows** and **Linux** systems. (Note: macOS is explicitly unsupported).
