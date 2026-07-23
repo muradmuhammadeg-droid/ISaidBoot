@@ -1,4 +1,4 @@
-> [!WARNING]
+> [!DANGER]
 > If you will do a single mistake on booting an .iso file, Your system will be corrupted. Tutorial is coming soon.
 # ISaidBoot!!
 
